@@ -1,0 +1,8 @@
+python-dotenv
+imapclient
+pytesseract
+pdf2image
+pdfplumber
+supabase
+apscheduler
+

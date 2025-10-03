@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  pdf_parser:
+    build: .
+    container_name: pdf_parser
+    env_file: .env
+    volumes:
+      - ./attachments:/app/attachments
+    restart: unless-stopped
