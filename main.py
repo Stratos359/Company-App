@@ -26,11 +26,9 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 BASE_DIR = "attachments"
 PAYROLLS_DIR = os.path.join(BASE_DIR, "payrolls")
 INVOICES_DIR = os.path.join(BASE_DIR, "invoices")
-PROCESSED_DIR = os.path.join(BASE_DIR, "processed")
 
 os.makedirs(PAYROLLS_DIR, exist_ok=True)
 os.makedirs(INVOICES_DIR, exist_ok=True)
-os.makedirs(PROCESSED_DIR, exist_ok=True)
 
 INVOICE_KEYWORDS = ["ΤΙΜΟΛΟΓΙΟ", "ΤΙΜΟΛΟΓΙΑ", "τιμολόγιο"]
 
@@ -270,7 +268,7 @@ def process_all():
             for rec in records:
                 rec["file_url"] = file_url
                 supabase.table("payrolls").insert(rec).execute()
-            os.rename(pdf_path, os.path.join(PROCESSED_DIR, pdf_file))
+            os.remove(pdf_path)
 
     # Invoices
     for pdf_file in os.listdir(INVOICES_DIR):
@@ -279,7 +277,7 @@ def process_all():
             rec = parse_invoice_from_pdf(pdf_path)
             rec["file_url"] = upload_pdf_to_supabase("invoices", pdf_path)
             supabase.table("invoices").insert(rec).execute()
-            os.rename(pdf_path, os.path.join(PROCESSED_DIR, pdf_file))
+            os.remove(pdf_path)
 
 # --------------------------- Scheduler ---------------------------
 if __name__ == "__main__":
