@@ -12,6 +12,13 @@ import pdfplumber
 from supabase import create_client, Client
 from apscheduler.schedulers.background import BackgroundScheduler
 
+import pytesseract
+import os
+
+# Explicitly set tesseract path for Render
+pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
+
+
 # --------------------------- Load environment ---------------------------
 load_dotenv()
 EMAIL_USER = os.getenv("EMAIL_USER")
